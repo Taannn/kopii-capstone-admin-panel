@@ -1,27 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight font-ff-quote">
+            <h2 class="font-semibold text-x3 text-coffee-brown leading-wider">
                 All Categories
             </h2>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="container mx-auto px-[2rem] grid grid-cols-3 gap-2">
-            <div class="col-span-2 border-4 border-espresso">
+    <div class="py-5">
+        <div class="container mx-auto px-[2rem] grid grid-cols-4 gap-2">
+            <div class="col-span-3 border-4 border-espresso">
 
-                <div class="grid grid-cols-5 gap-4 border-4 border-black-600 px-3 py-1">
+                <div class="grid grid-cols-6 gap-4 border-4 border-black-600 px-3 py-1">
                     <p class="font-bold">No.</p>
                     <p class="font-bold">Category ID</p>
                     <p class="font-bold">Category</p>
-                    <p class="font-bold">Created at</p>
+                    <p class="font-bold">Created At</p>
+                    <p class="font-bold">Updated At</p>
                     <p class="font-bold">Actions</p>
                 </div>
 
                 @foreach ($categories as $category)
-                    <div class="grid grid-cols-5 gap-4 pt-4 border-b-2 px-3">
+                    <div class="grid grid-cols-6 gap-4 pt-4 border-b-2 px-3">
                         {{-- categories.firstItem + loop-iteration.currentindex yung parang logic --}}
                         <p class="font-bold">{{ $categories->firstItem() + $loop->index }}</p>
                         <p class="font-bold">{{ $category->category_id }}</p>
@@ -31,6 +31,11 @@
                             <span class="text-red-600">Date not set</span>
                         @else
                             <p>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</p>
+                        @endif
+                        @if ($category->updated_at == null)
+                            <span class="text-red-600">Date not set</span>
+                        @else
+                            <p>{{ Carbon\Carbon::parse($category->updated_at)->diffForHumans() }}</p>
                         @endif
                         <p class="text-white">
                             <a href="{{ route('categories.edit', $category->category_id) }}"
@@ -53,7 +58,7 @@
                         class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
                         placeholder="Enter Category">
                     @error('category_name')
-                        <span class="text-red mt-2">{{ $message }}</span>
+                        <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
                     <button
                         class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
@@ -64,7 +69,7 @@
                     <form action="{{ route('categories.update', $toBeEdited->category_id) }}" method="POST">
                         @csrf
                         @method('put')
-                        <label for="category_name" class="block font-bold text-lg">Category Name</label>
+                        <label for="category_name" class="block font-bold text-lg">Update Category</label>
                         <input
                             type="text"
                             name="category_name"
@@ -72,7 +77,7 @@
                             class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
                             placeholder="Enter Category">
                         @error('category_name')
-                            <span class="text-red mt-2">{{ $message }}</span>
+                            <span class="text-red mt-1">{{ $message }}</span>
                         @enderror
                         <div class="flex space-x-1">
 
@@ -115,8 +120,8 @@
         </div>
 
 
-        <div class="container mx-auto mt-4 px-[2rem] grid grid-cols-3 gap-2">
-            <div class="col-span-2 border-4 border-espresso">
+        <div class="container mx-auto mt-4 px-[2rem] grid grid-cols-4 gap-2">
+            <div class="col-span-3 border-4 border-espresso">
 
                 <div class="grid grid-cols-5 gap-4 border-4 border-black-600 px-3 py-1">
                     <p class="font-bold">No.</p>
