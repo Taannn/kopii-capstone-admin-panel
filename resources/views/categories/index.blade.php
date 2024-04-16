@@ -103,7 +103,7 @@
 
         </div>
 
-        {{-- trashed list --}}
+
         <div class="container mx-auto mt-4 px-[2rem] grid grid-cols-3 gap-2">
             <div class="col-span-2 border-4 border-espresso">
 
