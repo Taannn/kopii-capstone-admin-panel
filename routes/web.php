@@ -30,20 +30,22 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
-    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit']);
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 
-    Route::get('/categories/{id}/update', [CategoryController::class, 'update']);
+    Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
 
-    Route::get('/categories/{id}/soft-delete', [CategoryController::class, 'softDelete']);
+    Route::get('/categories/cancel', [CategoryController::class, 'cancel'])->name('categories.cancel');
 
-    Route::get('/categories/{id}/restore', [CategoryController::class, 'restore']);
+    Route::get('/categories/{id}/soft-delete', [CategoryController::class, 'softDelete'])->name('categories.softDelete');
 
-    Route::get('/categories/{id}/force-delete', [CategoryController::class, 'forceDelete']);
+    Route::get('/categories/{id}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
+
+    Route::get('/categories/{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('categories.forceDelete');
 
 });

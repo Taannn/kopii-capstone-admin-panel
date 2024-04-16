@@ -5,7 +5,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight font-ff-quote">
                 All Categories
             </h2>
-            {{-- <b>Total Registered Users: <span class="bg-orange-800 text-white px-3 py-1 rounded-md"></span></b> --}}
         </div>
     </x-slot>
 
@@ -24,7 +23,7 @@
                 @foreach ($categories as $category)
                     <div class="grid grid-cols-5 gap-4 pt-4 border-b-2 px-3">
                         {{-- categories.firstItem + loop-iteration.currentindex yung parang logic --}}
-                        <p class="font-bold">{{ $categories->firstItem()+$loop->index }}</p>
+                        <p class="font-bold">{{ $categories->firstItem() + $loop->index }}</p>
                         <p class="font-bold">{{ $category->category_id }}</p>
                         <p>{{ $category->category_name }}</p>
                         {{-- <p>{{ $category->user_id }}</p> --}}
@@ -34,9 +33,9 @@
                             <p>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</p>
                         @endif
                         <p class="text-white">
-                            <a href="{{ url('categories/' . $category->category_id . '/edit') }}"
-                                class="bg-caramel editButton hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Edit</a>
-                            <a href="{{ url('categories/' . $category->category_id . '/soft-delete') }}"
+                            <a href="{{ route('categories.edit', $category->category_id) }}"
+                                class="bg-caramel edit-button hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Edit</a>
+                            <a href="{{ route('categories.softDelete', $category->category_id) }}"
                                 class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Trash</a>
                         </p>
                     </div>
@@ -60,18 +59,30 @@
                         class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
                 </form>
                 {{-- edit --}}
-                <form action="{{ route('categories.store') }}" method="POST" style="display: none;">
-                    @csrf
-                    <label for="category_name" class="block font-bold text-lg">Add Category</label>
-                    <input type="text" name="category_name" id="category_name"
-                        class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
-                        placeholder="Enter Category">
-                    @error('category_name')
-                        <span class="text-red mt-2">{{ $message }}</span>
-                    @enderror
-                    <button
-                        class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
-                </form>
+                @if ($editing ?? false)
+                    <hr class="h-[0.15rem] bg-coffee-brown text-coffee-brown my-3">
+                    <form action="{{ route('categories.update', $toBeEdited->category_id) }}" method="POST">
+                        @csrf
+                        @method('put')
+                        <label for="category_name" class="block font-bold text-lg">Category Name</label>
+                        <input
+                            type="text"
+                            name="category_name"
+                            value="{{ $toBeEdited->category_name }}"
+                            class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
+                            placeholder="Enter Category">
+                        @error('category_name')
+                            <span class="text-red mt-2">{{ $message }}</span>
+                        @enderror
+                        <div class="flex space-x-1">
+
+                            <button class="block bg-caramel hover:bg-espresso mt-4 flex-1 py-1 rounded-sm text-white">
+                                Update
+                            </button>
+                            <a href="{{ route('categories.cancel') }}" class="bg-red mt-4 flex-1 hover:bg-crimson text-center text-cream pt-[4px] rounded-sm">Cancel</a>
+                        </div>
+                    </form>
+                @endif
 
                 @if (session('success'))
                     <div id="toast-success"
@@ -117,8 +128,7 @@
 
                 @foreach ($trashes as $trash)
                     <div class="grid grid-cols-5 gap-4 pt-4 border-b-2 px-3">
-                        {{-- categories.firstItem + loop-iteration.currentindex yung parang logic --}}
-                        <p class="font-bold">{{ $trashes->firstItem()+$loop->index }}</p>
+                        <p class="font-bold">{{ $trashes->firstItem() + $loop->index }}</p>
                         <p class="font-bold">{{ $trash->category_id }}</p>
                         <p>{{ $trash->category_name }}</p>
                         {{-- <p>{{ $category->user_id }}</p> --}}
@@ -128,9 +138,9 @@
                             <p>{{ Carbon\Carbon::parse($trash->deleted_at)->diffForHumans() }}</p>
                         @endif
                         <p class="text-white">
-                            <a href="{{ url('categories/' . $trash->category_id . '/restore') }}"
+                            <a href="{{ route('categories.restore', $trash->category_id) }}"
                                 class="bg-caramel hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Restore</a>
-                            <a href="{{ url('categories/' . $trash->category_id. '/force-delete') }}"
+                            <a href="{{ route('categories.forceDelete', $trash->category_id) }}"
                                 class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Delete</a>
                         </p>
                     </div>
@@ -140,20 +150,5 @@
                 </div>
             </div>
         </div>
-
-
-        <script>
-            const editButton = document.getElementByClassName('editButton');
-            const editForm = document.getElementById('editForm');
-
-            editButton.addEventListener('click', function() {
-                if (editForm.style.display === 'none') {
-                    editForm.style.display = 'block';
-                } else {
-                    editForm.style.display = 'none';
-                }
-            });
-        </script>
-
     </div>
 </x-app-layout>
