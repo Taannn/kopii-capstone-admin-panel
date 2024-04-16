@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +31,19 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit']);
+
+    Route::get('/categories/{id}/update', [CategoryController::class, 'update']);
+
+    Route::get('/categories/{id}/soft-delete', [CategoryController::class, 'softDelete']);
+
+    Route::get('/categories/{id}/restore', [CategoryController::class, 'restore']);
+
+    Route::get('/categories/{id}/force-delete', [CategoryController::class, 'forceDelete']);
+
 });

@@ -20,7 +20,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
+    <body class="archivo tracking-wide antialiased">
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
@@ -44,5 +44,6 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     </body>
 </html>

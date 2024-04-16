@@ -9,6 +9,8 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
     ],
 
     theme: {
@@ -20,6 +22,7 @@ export default {
                 'espresso': '#2b1b17',
                 'latte': '#d5b59f',
                 'red': '#a43f37',
+                'crimson': '#96031A',
                 'green': '#678963',
                 'dark': '#111110',
             },
