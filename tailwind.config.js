@@ -21,6 +21,7 @@ export default {
                 'cream': '#f8f4eb',
                 'espresso': '#2b1b17',
                 'latte': '#d5b59f',
+                'latte-700': '#d5b589',
                 'red': '#a43f37',
                 'crimson': '#96031A',
                 'green': '#678963',

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-            <h2 class="font-semibold text-x3 text-coffee-brown leading-wider">
+            <h2 class="font-semibold text-[3rem] text-cream leading-wider">
                 All Categories
             </h2>
         </div>
