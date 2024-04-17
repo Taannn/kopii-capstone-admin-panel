@@ -33,12 +33,13 @@ Route::middleware([
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+    Route::get('/products/add', [ProductController::class, 'add'])->name('products.add');
+
+    Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-
-    Route::post('/images', [ImageController::class, 'store'])->name('images.store');
-    Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 

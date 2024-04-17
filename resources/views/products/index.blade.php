@@ -7,9 +7,8 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="container mx-auto px-[2rem] grid grid-cols-8 gap-2">
-            <div class="col-span-8 border-4 border-espresso">
-
+        <div class="container mx-auto px-[2rem] grid grid-cols-9 gap-2">
+            <div class="col-span-9 border-4 border-espresso">
                 <div class="grid grid-cols-9 gap-4 border-4 border-black-600 px-3 py-1">
                     <p class="font-bold">No.</p>
                     <p class="font-bold">Product </p>
@@ -63,19 +62,17 @@
                 </div>
             </div>
 
-            <div class="border-4 px-4 pb-4 col-span-3 pt-0 border-espresso rounded-sm">
-                <form action="" method="POST">
-                    @csrf
-                    <label for="category_name" class="block font-bold text-lg mt-2">Add Product</label>
-                    <input type="text" name="category_name" id="category_name"
-                        class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
-                        placeholder="Enter Category">
-                    @error('category_name')
-                        <span class="text-red mt-1">{{ $message }}</span>
-                    @enderror
-                    <button
-                        class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
-                </form>
+            <div class="border-4 px-4 pb-4 col-span-4 pt-0 border-espresso rounded-sm">
+
+                @if (!$adding ?? false)
+                    <form action="{{ route('products.add') }}" method="get">
+                        @csrf
+                        <button
+                            class="block bg-caramel py-3 hover:bg-espresso mt-4 w-full text-[1.6rem] rounded-sm text-white">Add
+                        </button>
+                    </form>
+                @endif
+                @include('products.components.add')
                 @if (session('success'))
                     <div id="toast-success"
                         class="flex items-center w-full max-w-lg mt-5 p-4 mb-4 text-gray-500 bg-latte rounded-sm shadow dark:text-cream dark:bg-coffee-brown ms-auto"
@@ -103,6 +100,16 @@
                     </div>
                 @endif
             </div>
+
+            <div class="border-4 pb-4 col-span-5 pt-0 border-espresso rounded-sm">
+                <div class="grid grid-cols-4 gap-4 border-4 border-black-600 px-3 py-1">
+                    <p class="font-bold">No.</p>
+                    <p class="font-bold">Product </p>
+                    <p class="font-bold">Trashed At</p>
+                    <p class="font-bold">Actions</p>
+                </div>
+            </div>
+
 
         </div>
     </div>

@@ -20,7 +20,6 @@ class Product extends Model
         'product_stock',
         'product_img',
         'category_id',
-        'starting_quantity',
         'discount'
     ];
 

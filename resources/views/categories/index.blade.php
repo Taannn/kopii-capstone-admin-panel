@@ -61,7 +61,7 @@
                         <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
                     <button
-                        class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
+                        class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add Product</button>
                 </form>
                 {{-- edit --}}
                 @if ($editing ?? false)
@@ -120,7 +120,7 @@
         </div>
 
 
-        <div class="container mx-auto mt-4 px-[2rem] grid grid-cols-4 gap-2">
+        <div class="container mx-auto mt-2 px-[2rem] grid grid-cols-4 gap-2">
             <div class="col-span-3 border-4 border-espresso">
 
                 <div class="grid grid-cols-5 gap-4 border-4 border-black-600 px-3 py-1">
