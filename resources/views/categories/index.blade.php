@@ -20,34 +20,37 @@
                     <p class="font-bold">Actions</p>
                 </div>
 
-                @foreach ($categories as $category)
-                    <div class="grid grid-cols-6 gap-4 pt-4 border-b-2 px-3">
-                        {{-- categories.firstItem + loop-iteration.currentindex yung parang logic --}}
-                        <p class="font-bold">{{ $categories->firstItem() + $loop->index }}</p>
-                        <p class="font-bold">{{ $category->category_id }}</p>
-                        <p>{{ $category->category_name }}</p>
-                        {{-- <p>{{ $category->user_id }}</p> --}}
-                        @if ($category->created_at == null)
-                            <span class="text-red-600">Date not set</span>
-                        @else
-                            <p>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</p>
-                        @endif
-                        @if ($category->updated_at == null)
-                            <span class="text-red-600">Date not set</span>
-                        @else
-                            <p>{{ Carbon\Carbon::parse($category->updated_at)->diffForHumans() }}</p>
-                        @endif
-                        <p class="text-white">
-                            <a href="{{ route('categories.edit', $category->category_id) }}"
-                                class="bg-caramel edit-button hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Edit</a>
-                            <a href="{{ route('categories.softDelete', $category->category_id) }}"
-                                class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Trash</a>
-                        </p>
+                @if (count($categories) === 0 ?? false)
+                    <h1 class="text-center text-espresso my-4">No categories added</h1>
+                @else
+                    @foreach ($categories as $category)
+                        <div class="grid grid-cols-6 gap-4 pt-4 border-b-2 px-3">
+                            {{-- categories.firstItem + loop-iteration.currentindex yung parang logic --}}
+                            <p class="font-bold">{{ $categories->firstItem() + $loop->index }}</p>
+                            <p class="font-bold">{{ $category->category_id }}</p>
+                            <p>{{ $category->category_name }}</p>
+                            @if ($category->created_at == null)
+                                <span class="text-red-600">Date not set</span>
+                            @else
+                                <p>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans() }}</p>
+                            @endif
+                            @if ($category->updated_at == null)
+                                <span class="text-red-600">Date not set</span>
+                            @else
+                                <p>{{ Carbon\Carbon::parse($category->updated_at)->diffForHumans() }}</p>
+                            @endif
+                            <p class="text-white">
+                                <a href="{{ route('categories.edit', $category->category_id) }}"
+                                    class="bg-caramel edit-button hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Edit</a>
+                                <a href="{{ route('categories.softDelete', $category->category_id) }}"
+                                    class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Trash</a>
+                            </p>
+                        </div>
+                    @endforeach
+                    <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
+                        {{ $categories->links() }}
                     </div>
-                @endforeach
-                <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
-                    {{ $categories->links() }}
-                </div>
+                @endif
             </div>
 
             <div class="border-4 px-4 pb-4 pt-0 border-espresso rounded-sm">
@@ -60,8 +63,8 @@
                     @error('category_name')
                         <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
-                    <button
-                        class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add Product</button>
+                    <button class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add
+                        Product</button>
                 </form>
                 {{-- edit --}}
                 @if ($editing ?? false)
@@ -70,10 +73,7 @@
                         @csrf
                         @method('put')
                         <label for="category_name" class="block font-bold text-lg">Update Category</label>
-                        <input
-                            type="text"
-                            name="category_name"
-                            value="{{ $toBeEdited->category_name }}"
+                        <input type="text" name="category_name" value="{{ $toBeEdited->category_name }}"
                             class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
                             placeholder="Enter Category">
                         @error('category_name')
@@ -84,7 +84,8 @@
                             <button class="block bg-caramel hover:bg-espresso mt-4 flex-1 py-1 rounded-sm text-white">
                                 Update
                             </button>
-                            <a href="{{ route('categories.cancel') }}" class="bg-red mt-4 flex-1 hover:bg-crimson text-center text-cream pt-[4px] rounded-sm">Cancel</a>
+                            <a href="{{ route('categories.cancel') }}"
+                                class="bg-red mt-4 flex-1 hover:bg-crimson text-center text-cream pt-[4px] rounded-sm">Cancel</a>
                         </div>
                     </form>
                 @endif
@@ -131,28 +132,32 @@
                     <p class="font-bold">Actions</p>
                 </div>
 
-                @foreach ($trashes as $trash)
-                    <div class="grid grid-cols-5 gap-4 pt-4 border-b-2 px-3">
-                        <p class="font-bold">{{ $trashes->firstItem() + $loop->index }}</p>
-                        <p class="font-bold">{{ $trash->category_id }}</p>
-                        <p>{{ $trash->category_name }}</p>
-                        {{-- <p>{{ $category->user_id }}</p> --}}
-                        @if ($trash->deleted_at == null)
-                            <span class="text-red-600">Date not set</span>
-                        @else
-                            <p>{{ Carbon\Carbon::parse($trash->deleted_at)->diffForHumans() }}</p>
-                        @endif
-                        <p class="text-white">
-                            <a href="{{ route('categories.restore', $trash->category_id) }}"
-                                class="bg-caramel hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Restore</a>
-                            <a href="{{ route('categories.forceDelete', $trash->category_id) }}"
-                                class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Delete</a>
-                        </p>
+                @if (count($trashes) === 0 ?? false)
+                    <h1 class="text-center text-espresso my-4">Nothing trashed yet</h1>
+                @else
+                    @foreach ($trashes as $trash)
+                        <div class="grid grid-cols-5 gap-4 pt-4 border-b-2 px-3">
+                            <p class="font-bold">{{ $trashes->firstItem() + $loop->index }}</p>
+                            <p class="font-bold">{{ $trash->category_id }}</p>
+                            <p>{{ $trash->category_name }}</p>
+                            {{-- <p>{{ $category->user_id }}</p> --}}
+                            @if ($trash->deleted_at == null)
+                                <span class="text-red-600">Date not set</span>
+                            @else
+                                <p>{{ Carbon\Carbon::parse($trash->deleted_at)->diffForHumans() }}</p>
+                            @endif
+                            <p class="text-white">
+                                <a href="{{ route('categories.restore', $trash->category_id) }}"
+                                    class="bg-caramel hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Restore</a>
+                                <a href="{{ route('categories.forceDelete', $trash->category_id) }}"
+                                    class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Delete</a>
+                            </p>
+                        </div>
+                    @endforeach
+                    <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
+                        {{ $trashes->links() }}
                     </div>
-                @endforeach
-                <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
-                    {{ $trashes->links() }}
-                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -12,8 +12,9 @@ class ProductController extends Controller
     {
         // $products = Product::latest()->paginate(5);
         $products = Product::latest()->with('category')->paginate(4);
+        $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = false;
-        return view('products.index', compact('products', 'adding'));
+        return view('products.index', compact('products', 'adding', 'trashes'));
     }
 
     public function store(Request $request)
@@ -43,8 +44,28 @@ class ProductController extends Controller
 
     public function add() {
         $products = Product::latest()->with('category')->paginate(4);
+        $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = true;
 
-        return view('products.index', compact('products', 'adding'));
+        return view('products.index', compact('products', 'adding', 'trashes'));
+    }
+
+    public function softDelete($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product moved to trash!');
+    }
+
+    public function restore($id)
+    {
+        $product = Product::withTrashed()->find($id)->restore();
+        return redirect()->route('products.index')->with('success', 'Product successfully restored!');
+    }
+
+    public function forceDelete($id)
+    {
+        $product = Product::withTrashed()->find($id)->forceDelete();
+        return redirect()->route('products.index')->with('success', 'Product permanently deleted!');
     }
 }

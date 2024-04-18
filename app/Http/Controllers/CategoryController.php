@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->paginate(4);
-        $trashes = Category::onlyTrashed()->latest()->paginate(2);
+        $trashes = Category::onlyTrashed()->latest('deleted_at')->paginate(2);
         return view('categories.index', compact('categories', 'trashes'));
     }
 

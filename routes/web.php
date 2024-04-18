@@ -37,6 +37,12 @@ Route::middleware([
 
     Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 
+    Route::get('/products/{id}/soft-delete', [ProductController::class, 'softDelete'])->name('products.softDelete');
+
+    Route::get('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
+
+    Route::get('/products/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
+
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
