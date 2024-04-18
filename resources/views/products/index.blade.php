@@ -9,9 +9,10 @@
     <div class="py-6">
         <div class="container mx-auto px-[2rem] grid grid-cols-9 gap-2">
             <div class="col-span-9 border-4 border-espresso">
-                <div class="grid grid-cols-9 gap-4 border-4 border-black-600 px-3 py-1">
+                <div class="grid grid-cols-10 gap-4 border-4 border-black-600 px-3 py-1">
                     <p class="font-bold">No.</p>
                     <p class="font-bold">Product </p>
+                    <p class="font-bold">Image </p>
                     <p class="font-bold">Price</p>
                     <p class="font-bold">Discount</p>
                     <p class="font-bold">Stock</p>
@@ -24,11 +25,12 @@
                     <h1 class="text-center text-espresso my-4">No products addded</h1>
                 @else
                     @foreach ($products as $product)
-                        <div class="grid grid-cols-9 gap-4 pt-4 border-b-2 px-3">
+                        <div class="grid grid-cols-10 gap-4 pt-4 border-b-2 px-3">
                             <p class="font-bold">{{ $products->firstItem() + $loop->index }}</p>
                             <p class="font-bold">{{ $product->product_name }}</p>
+                            <img src="{{ $product->product_img }}" class="w-[2.7rem] h-[2.2rem] rounded-sm" alt="">
                             @if ($product->discount == null)
-                                <p>{{ $product->product_price }}</p>
+                                <p>{{ number_format($product->product_price, 2) }}</p>
                             @else
                                 <p>{{ $product->product_price }}</p>
                             @endif

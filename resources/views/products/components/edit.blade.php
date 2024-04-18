@@ -2,8 +2,8 @@
     <form action="{{ route('products.update', $toBeEdited->product_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('put')
-        <div class="flex p-4 justify-between gap-2 text-espresso">
-            <div class="text-coffee-brown">
+        <div class="flex p-4 justify-between gap-4 text-espresso">
+            <div class="text-coffee-brown flex-1">
                 <div>
                     <label for="product_name">Product Name</label>
                     <input type="text"
@@ -27,19 +27,41 @@
                         <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="mt-4">
+                <div class="mt-5">
                     <label for="product_img">Product Image</label>
-                    <input type="file" name="product_img" id="product_img"
+                    <input
+                        style="visibility: hidden; position: absolute;"
+                        type="file" name="product_img" id="product_img"
+                        onchange="displayFileName(this)"
                         class="rounded block p-1 mt-2 w-full border-2 border-caramel bg-cream focus:border-coffee-brown focus:ring-coffee-brown" />
+                    <div
+                        onclick="getElementById('product_img').click()"
+                        class="rounded-sm p-1 border-caramel border-2 flex align-items-center">
+                        <button type="button" class="inline-block p-1 bg-caramel text-cream rounded-sm">Upload Image</button>
+                        <span id="imageFileName" class="text-espresso ms-1 mt-[0.3rem] text-[0.8rem]">No Image Uploaded</span>
+                    </div>
                     @error('product_img')
                         <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
+                    <script>
+                        function displayFileName(input) {
+                            const fileNameSpan = document.getElementById('imageFileName');
+                            if (input.files.length > 0) {
+                                fileNameSpan.textContent = input.files[0].name;
+                            } else {
+                                fileNameSpan.textContent = 'No Image Uploaded';
+                            }
+                        }
+                    </script>
                 </div>
             </div>
-            <div>
+            <div class="text-coffee-brown flex-1">
                 <div>
                     <label for="product_price">Product Price</label>
-                    <input type="text" name="product_price" id="product_price"
+                    <input
+                        type="text" name="product_price" id="product_price"
+                        onkeypress="return /[0-9]/i.test(event.key)"
+                        maxlength="12"
                         class="rounded block p-1 mt-2 w-full border-2 border-caramel focus:border-coffee-brown focus:ring-coffee-brown"
                         value="{{ $toBeEdited->product_price }}"
                     />
@@ -49,7 +71,10 @@
                     </div">
                     <div class="mt-4">
                         <label for="product_stock">Product Stock</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            onkeypress="return /[0-9]/i.test(event.key)"
+                            maxlength="5"
                             class="rounded block p-1 mt-2 w-full border-2 border-caramel focus:border-coffee-brown focus:ring-coffee-brown"
                             name="product_stock" id="product_stock"
                             value="{{ $toBeEdited->product_stock }}"
@@ -60,7 +85,10 @@
                     </div>
                     <div class="my-4">
                         <label for="category_id">Category ID</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            onkeypress="return /[0-9]/i.test(event.key)"
+                            maxlength="10"
                             class="rounded block p-1 mt-2 w-full border-2 border-caramel focus:border-coffee-brown focus:ring-coffee-brown"
                             name="category_id" id="category_id"
                             value="{{ $toBeEdited->category_id }}"

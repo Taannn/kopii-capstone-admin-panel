@@ -42,8 +42,10 @@ Route::middleware([
     Route::get('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
 
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::get('/products/{id}/discount/edit', [ProductController::class, 'edit'])->name('products.edit');
 
     Route::put('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
+    Route::put('/products/{id}/discount/update', [ProductController::class, 'update'])->name('products.update');
 
     Route::get('/products/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
 
