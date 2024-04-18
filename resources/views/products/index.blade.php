@@ -52,7 +52,7 @@
                                 <a href="" class="bg-latte hover:bg-latte-700 px-2 me-1 py-1 rounded-sm mb-1">Add
                                     discount
                                 </a>
-                                <a href=""
+                                <a href="{{ route('products.edit', $product->product_id) }}"
                                     class="bg-caramel edit-button hover:bg-coffee-brown px-2 me-1 py-1 rounded-sm mb-1">Edit
                                 </a>
                                 <a href="{{ route('products.softDelete', $product->product_id) }}"
@@ -69,7 +69,7 @@
 
             <div class="border-4 px-4 pb-4 col-span-4 pt-0 border-espresso rounded-sm">
 
-                @if (!$adding ?? false)
+                @if (!$adding && !$editing ?? false)
                     <form action="{{ route('products.add') }}" method="get">
                         @csrf
                         <button
@@ -78,6 +78,7 @@
                     </form>
                 @endif
                 @include('products.components.add')
+                @include('products.components.edit')
                 @if (session('success'))
                     <div id="toast-success"
                         class="flex items-center w-full max-w-lg mt-5 p-4 mb-4 text-gray-500 bg-latte rounded-sm shadow dark:text-cream dark:bg-coffee-brown ms-auto"

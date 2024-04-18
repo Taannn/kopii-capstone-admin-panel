@@ -14,7 +14,45 @@ class ProductController extends Controller
         $products = Product::latest()->with('category')->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = false;
-        return view('products.index', compact('products', 'adding', 'trashes'));
+        $editing = false;
+        return view('products.index', compact('products', 'adding', 'trashes', 'editing'));
+    }
+
+    public function edit($id)
+    {
+        $products = Product::latest()->paginate(4);
+        $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
+        $toBeEdited = Product::findOrFail($id);
+        $editing = true;
+        $adding = false;
+        return view('products.index', compact('toBeEdited', 'editing', 'products', 'trashes', 'adding'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'product_desc' => 'required|string',
+            'product_img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_price' => 'required|min:1',
+            'product_stock' => 'required|min:1',
+            'category_id' => 'required|exists:category,category_id'
+        ]);
+        $validated['product_stock'] = (int) $validated['product_stock'];
+        $validated['product_price'] = floatval($validated['product_price']);
+
+        $product = Product::findOrFail($id);
+        $product->update($validated);
+
+        if ($request->hasFile('product_img')) {
+            $image = $request->file('product_img');
+            $imagePath = $image->store('public/images');
+            $imageUrl = Storage::url($imagePath);
+            $product->product_img = $imageUrl;
+            $product->save();
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
     public function store(Request $request)
@@ -42,12 +80,14 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product successfully added!');
     }
 
-    public function add() {
+    public function add()
+    {
         $products = Product::latest()->with('category')->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = true;
+        $editing = false;
 
-        return view('products.index', compact('products', 'adding', 'trashes'));
+        return view('products.index', compact('products', 'adding', 'trashes', 'editing'));
     }
 
     public function softDelete($id)

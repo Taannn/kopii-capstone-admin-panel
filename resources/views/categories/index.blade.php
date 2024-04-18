@@ -53,18 +53,17 @@
                 @endif
             </div>
 
-            <div class="border-4 px-4 pb-4 pt-0 border-espresso rounded-sm">
+            <div class="border-4 px-4 pb-4 row-span-2 col-span-1 pt-0 border-espresso rounded-sm">
                 <form action="{{ route('categories.store') }}" method="POST">
                     @csrf
                     <label for="category_name" class="block font-bold text-lg mt-2">Add Category</label>
                     <input type="text" name="category_name" id="category_name"
-                        class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
+                        class="rounded block p-1 mt-2 border-caramel border-1 w-full focus:border-coffee-brown focus:ring-coffee-brown"
                         placeholder="Enter Category">
                     @error('category_name')
                         <span class="text-red mt-1">{{ $message }}</span>
                     @enderror
-                    <button class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add
-                        Product</button>
+                    <button class="block bg-caramel hover:bg-espresso mt-4 w-full py-1 rounded-sm text-white">Add</button>
                 </form>
                 {{-- edit --}}
                 @if ($editing ?? false)
@@ -74,7 +73,7 @@
                         @method('put')
                         <label for="category_name" class="block font-bold text-lg">Update Category</label>
                         <input type="text" name="category_name" value="{{ $toBeEdited->category_name }}"
-                            class="rounded block p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
+                            class="rounded block border-caramel border-1 p-1 mt-2 w-full focus:border-coffee-brown focus:ring-coffee-brown"
                             placeholder="Enter Category">
                         @error('category_name')
                             <span class="text-red mt-1">{{ $message }}</span>
@@ -118,10 +117,6 @@
                 @endif
             </div>
 
-        </div>
-
-
-        <div class="container mx-auto mt-2 px-[2rem] grid grid-cols-4 gap-2">
             <div class="col-span-3 border-4 border-espresso">
 
                 <div class="grid grid-cols-5 gap-4 border-4 border-black-600 px-3 py-1">
@@ -160,5 +155,7 @@
                 @endif
             </div>
         </div>
+
+
     </div>
 </x-app-layout>
