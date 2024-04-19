@@ -32,6 +32,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 
     Route::get('/products/add', [ProductController::class, 'add'])->name('products.add');
 

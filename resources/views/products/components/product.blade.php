@@ -16,7 +16,7 @@
                 class="absolute">
                 @csrf
                 @method('PUT')
-                <button type="submit" id="discountRemove" style="visibility: hidden;"></button>
+                <button type="submit" id="discountRemove{{$product->product_id  }}" style="visibility: hidden;"></button>
             </form>
             <p class="font-bold">{{ $products->firstItem() + $loop->index }}</p>
             <p class="font-bold">{{ $product->product_name }}</p>
@@ -55,7 +55,7 @@
                         Discount
                     </a>
                 @else
-                    <a onclick="document.getElementById('discountRemove').click()"
+                    <a onclick="document.getElementById('discountRemove{{ $product->product_id }}').click()"
                         class="bg-latte hover:bg-latte-700 px-2 me-1 py-1 rounded-sm mb-1 cursor-pointer">Reset
                     </a>
                 @endif

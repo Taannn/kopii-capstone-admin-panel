@@ -21,7 +21,7 @@ class ProductController extends Controller
         $adding = false;
         $editing = false;
         $addingDiscount = false;
-        return view('products.index', compact('products', 'adding', 'trashes', 'editing', 'addingDiscount'));
+        return view('products.index', compact('products', 'trashes', 'adding', 'editing', 'addingDiscount'));
     }
 
     public function edit($id)
@@ -146,4 +146,51 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Discount has been reset.');
     }
 
+    public function search(Request $request)
+    {
+        $products = Product::latest()->with('category');
+        if ($request->has('search')) {
+            $products = $products->where('product_name', 'like', '%' . $request->get('search', '') . '%');
+        }
+        return view('products.index', [
+            'products' => $products->paginate(4),
+            'adding' => false,
+            'editing' => false,
+            'addingDiscount' => false,
+        ]);
+    }
+    public function incrementStockByAmount($id)
+    {
+        $validated = request()->validate([
+            'amount' => 'required|numeric|min:1|max:10',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->increment('product_stock', $validated['amount']);
+        return redirect()->back()->with('success', 'Product stock incremented by ' . $validated['amount'] . '.');
+    }
+
+    public function decrementStockByAmount($id)
+    {
+        $validated = request()->validate([
+            'amount' => 'required|numeric|min:1|max:10',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->decrement('product_stock', $validated['amount']);
+        return redirect()->back()->with('success', 'Product stock decremented by ' . $validated['amount'] . '.');
+    }
+    public function incrementStock($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->increment('product_stock');
+        return redirect()->back()->with('success', 'Product stock incremented by one.');
+    }
+
+    public function decrementStock($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->decrement('product_stock');
+        return redirect()->back()->with('success', 'Product stock decremented by one.');
+    }
 }
