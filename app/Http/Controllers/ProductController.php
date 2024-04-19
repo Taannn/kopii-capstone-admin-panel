@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function products()
+    {
+        $products = Product::where('ordered_from', 'Kopii Shop')->get();
+        return response()->json($products);
+    }
     public function index()
     {
         // $products = Product::latest()->paginate(5);
@@ -15,7 +20,8 @@ class ProductController extends Controller
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = false;
         $editing = false;
-        return view('products.index', compact('products', 'adding', 'trashes', 'editing'));
+        $addingDiscount = false;
+        return view('products.index', compact('products', 'adding', 'trashes', 'editing', 'addingDiscount'));
     }
 
     public function edit($id)
@@ -108,4 +114,36 @@ class ProductController extends Controller
         $product = Product::withTrashed()->find($id)->forceDelete();
         return redirect()->route('products.index')->with('success', 'Product permanently deleted!');
     }
+
+    public function discountSelected($id)
+    {
+        $products = Product::latest()->paginate(4);
+        $trashes = Product::onlyTrashed()->latest()->paginate(2);
+        $discounted = Product::findOrFail($id);
+        $adding = false;
+        $editing = false;
+        $addingDiscount = true;
+        return view('products.index', compact('addingDiscount', 'products', 'trashes', 'discounted', 'editing', 'adding'));
+    }
+
+    public function discountApply(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'discount' => 'required|min:1|max:3'
+        ]);
+
+        $discounted = Product::findOrFail($id);
+        $discounted->update($validated);
+        $addingDiscount = null;
+        return redirect()->route('products.index')->with('success', 'Discount Added!');
+    }
+    public function discountRemove($id)
+    {
+        $discounted = Product::findOrFail($id);
+        $discounted->update([
+            'discount' => null
+        ]);
+        return redirect()->route('products.index')->with('success', 'Discount has been reset.');
+    }
+
 }

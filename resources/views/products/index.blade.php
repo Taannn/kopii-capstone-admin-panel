@@ -20,65 +20,12 @@
                     <p class="font-bold">Updated At</p>
                     <p class="font-bold col-span-2">Actions</p>
                 </div>
-
-                @if (count($products) === 0 ?? false)
-                    <h1 class="text-center text-espresso my-4">No products addded</h1>
-                @else
-                    @foreach ($products as $product)
-                        <div class="grid grid-cols-10 gap-4 pt-4 border-b-2 px-3">
-                            <p class="font-bold">{{ $products->firstItem() + $loop->index }}</p>
-                            <p class="font-bold">{{ $product->product_name }}</p>
-                            <img src="{{ $product->product_img }}" class="w-[2.7rem] h-[2.2rem] rounded-sm" alt="">
-                            @if ($product->discount == null)
-                                <p>{{ number_format($product->product_price, 2) }}</p>
-                            @else
-                                <p>{{ $product->product_price }}</p>
-                            @endif
-                            @if ($product->discount == null)
-                                <span class="text-red-600">No Discount</span>
-                            @else
-                                <p>{{ $product->discount }} %</p>
-                            @endif
-                            <p>{{ $product->product_stock }}</p>
-                            @if ($product->created_at == null)
-                                <span class="text-red-600">Date not set</span>
-                            @else
-                                <p>{{ Carbon\Carbon::parse($product->created_at)->diffForHumans() }}</p>
-                            @endif
-                            @if ($product->updated_at == null)
-                                <span class="text-red-600">Date not set</span>
-                            @else
-                                <p>{{ Carbon\Carbon::parse($product->updated_at)->diffForHumans() }}</p>
-                            @endif
-                            <p class="text-white col-span-2">
-                                <a href="" class="bg-latte hover:bg-latte-700 px-2 me-1 py-1 rounded-sm mb-1">Add
-                                    discount
-                                </a>
-                                <a href="{{ route('products.edit', $product->product_id) }}"
-                                    class="bg-caramel edit-button hover:bg-coffee-brown px-2 me-1 py-1 rounded-sm mb-1">Edit
-                                </a>
-                                <a href="{{ route('products.softDelete', $product->product_id) }}"
-                                    class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Trash
-                                </a>
-                            </p>
-                        </div>
-                    @endforeach
-                    <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
-                        {{ $products->links() }}
-                    </div>
-                @endif
+                @include('products.components.product')
             </div>
 
             <div class="border-4 px-4 pb-4 col-span-4 pt-0 border-espresso rounded-sm">
-
-                @if (!$adding && !$editing ?? false)
-                    <form action="{{ route('products.add') }}" method="get">
-                        @csrf
-                        <button
-                            class="block bg-caramel py-3 hover:bg-espresso mt-4 w-full text-[1.6rem] rounded-sm text-white">Add
-                        </button>
-                    </form>
-                @endif
+                @include('products.components.add_product')
+                @include('products.components.add_discount')
                 @include('products.components.add')
                 @include('products.components.edit')
                 @if (session('success'))
@@ -107,6 +54,16 @@
                         </button>
                     </div>
                 @endif
+                <script>
+                    function displayFileName(input) {
+                        const fileNameSpan = document.getElementById('imageFileName');
+                        if (input.files.length > 0) {
+                            fileNameSpan.textContent = input.files[0].name;
+                        } else {
+                            fileNameSpan.textContent = 'No Image Uploaded';
+                        }
+                    }
+                </script>
             </div>
 
             <div class="border-4 pb-4 col-span-5 pt-0 border-espresso rounded-sm">
@@ -116,31 +73,7 @@
                     <p class="font-bold">Trashed At</p>
                     <p class="font-bold">Actions</p>
                 </div>
-
-                @if (count($trashes) === 0 ?? false)
-                    <h1 class="text-center mt-4 text-espresso">Nothing trashed yet</h1>
-                @else
-                    @foreach ($trashes as $trash)
-                        <div class="grid grid-cols-4 gap-4 pt-4 border-b-2 px-3">
-                            <p class="font-bold">{{ $trashes->firstItem() + $loop->index }}</p>
-                            <p>{{ $trash->product_name }}</p>
-                            @if ($trash->deleted_at == null)
-                                <span class="text-red-600">Date not set</span>
-                            @else
-                                <p>{{ Carbon\Carbon::parse($trash->deleted_at)->diffForHumans() }}</p>
-                            @endif
-                            <p class="text-white">
-                                <a href="{{ route('products.restore', $trash->product_id) }}"
-                                    class="bg-caramel hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">Restore</a>
-                                <a href="{{ route('products.forceDelete', $trash->product_id) }}"
-                                    class="bg-red hover:bg-crimson px-2 py-1 rounded-sm mb-1">Delete</a>
-                            </p>
-                        </div>
-                    @endforeach
-                    <div class="container mx-auto mt-2 px-[2rem] pt-4 pb-2">
-                        {{ $trashes->links() }}
-                    </div>
-                @endif
+                @include('products.components.trash')
             </div>
 
 
