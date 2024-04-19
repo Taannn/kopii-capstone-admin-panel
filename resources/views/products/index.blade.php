@@ -9,16 +9,16 @@
     <div class="py-6">
         <div class="container mx-auto px-[2rem] grid grid-cols-9 gap-2">
             <div class="col-span-9 border-4 border-espresso">
-                <div class="grid grid-cols-10 gap-4 border-4 border-black-600 px-3 py-1">
-                    <p class="font-bold">No.</p>
-                    <p class="font-bold">Product </p>
-                    <p class="font-bold">Image </p>
-                    <p class="font-bold">Price</p>
-                    <p class="font-bold">Discount</p>
-                    <p class="font-bold">Stock</p>
-                    <p class="font-bold">Created At</p>
-                    <p class="font-bold">Updated At</p>
-                    <p class="font-bold col-span-2">Actions</p>
+                <div class="grid grid-cols-[repeat(23,1fr)] gap-4 border-4 border-black-600 px-3 py-1">
+                    <p class="font-bold col-span-1">No.</p>
+                    <p class="font-bold col-span-3">Product </p>
+                    <p class="font-bold col-span-2">Image </p>
+                    <p class="font-bold col-span-3">Price</p>
+                    <p class="font-bold col-span-2">Discount</p>
+                    <p class="font-bold col-span-1">Stock</p>
+                    <p class="font-bold col-span-2">Created At</p>
+                    <p class="font-bold col-span-2">Updated At</p>
+                    <p class="font-bold col-span-7">Actions</p>
                 </div>
                 @include('products.components.product')
             </div>
@@ -28,6 +28,7 @@
                 @include('products.components.add_discount')
                 @include('products.components.add')
                 @include('products.components.edit')
+                @include('products.components.stock_management')
                 @if (session('success'))
                     <div id="toast-success"
                         class="flex items-center w-full max-w-lg mt-5 p-4 mb-4 text-gray-500 bg-latte rounded-sm shadow dark:text-cream dark:bg-coffee-brown ms-auto"

@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $category->update($validated);
         $toBeEdited = null;
         $editing = null;
-        return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
+        return redirect()->route('categories.index')->with('success', $category->category_name . ' successfully updated to ' . $validated['category_name'] . '.');
     }
 
     public function cancel() {

@@ -21,7 +21,8 @@ class ProductController extends Controller
         $adding = false;
         $editing = false;
         $addingDiscount = false;
-        return view('products.index', compact('products', 'trashes', 'adding', 'editing', 'addingDiscount'));
+        $updatingStock = false;
+        return view('products.index', compact('products', 'trashes', 'adding', 'editing', 'addingDiscount', 'updatingStock'));
     }
 
     public function edit($id)
@@ -133,9 +134,12 @@ class ProductController extends Controller
         ]);
 
         $discounted = Product::findOrFail($id);
+        if ($validated['discount'] >= 100) {
+            return redirect()->back()->with('exceedingDiscount', 'Discount cannot exceed 100 %');
+        }
         $discounted->update($validated);
         $addingDiscount = null;
-        return redirect()->route('products.index')->with('success', 'Discount Added!');
+        return redirect()->route('products.index')->with('success', 'Discount Added to '. $discounted->product_name . '!');
     }
     public function discountRemove($id)
     {
@@ -143,9 +147,8 @@ class ProductController extends Controller
         $discounted->update([
             'discount' => null
         ]);
-        return redirect()->route('products.index')->with('success', 'Discount has been reset.');
+        return redirect()->route('products.index')->with('success', 'Discount applied to ' . $discounted->product_name . ' removed.');
     }
-
     public function search(Request $request)
     {
         $products = Product::latest()->with('category');
@@ -159,38 +162,74 @@ class ProductController extends Controller
             'addingDiscount' => false,
         ]);
     }
+    public function selectedStock($id)
+    {
+        $products = Product::latest()->paginate(4);
+        $trashes = Product::onlyTrashed()->latest()->paginate(2);
+        $stock = Product::findOrFail($id);
+        $adding = false;
+        $editing = false;
+        $addingDiscount = false;
+        $updatingStock = true;
+        return view('products.index', compact('addingDiscount', 'products', 'trashes', 'editing', 'adding', 'updatingStock', 'stock'));
+    }
     public function incrementStockByAmount($id)
-    {
-        $validated = request()->validate([
-            'amount' => 'required|numeric|min:1|max:10',
-        ]);
+{
+    $validated = request()->validate([
+        'incrementAmount' => 'required|min:1',
+    ]);
 
-        $product = Product::findOrFail($id);
-        $product->increment('product_stock', $validated['amount']);
-        return redirect()->back()->with('success', 'Product stock incremented by ' . $validated['amount'] . '.');
+    $product = Product::findOrFail($id);
+    $currentStock = $product->product_stock;
+    if ($currentStock + $validated['incrementAmount'] > 500) {
+        return redirect()->back()->with('incrementAmountError', 'Stock limit is 500.');
     }
 
-    public function decrementStockByAmount($id)
-    {
-        $validated = request()->validate([
-            'amount' => 'required|numeric|min:1|max:10',
-        ]);
+    $product->increment('product_stock', $validated['incrementAmount']);
+    return redirect()->back()->with('success', 'Product stock increased by ' . $validated['incrementAmount'] . '.');
+}
 
-        $product = Product::findOrFail($id);
-        $product->decrement('product_stock', $validated['amount']);
-        return redirect()->back()->with('success', 'Product stock decremented by ' . $validated['amount'] . '.');
-    }
-    public function incrementStock($id)
-    {
-        $product = Product::findOrFail($id);
-        $product->increment('product_stock');
-        return redirect()->back()->with('success', 'Product stock incremented by one.');
+public function decrementStockByAmount($id)
+{
+    $validated = request()->validate([
+        'decrementAmount' => 'required|min:1',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $currentStock = $product->product_stock;
+
+    if ($currentStock - $validated['decrementAmount'] <= 0) {
+        return redirect()->back()->with('decrementAmountError', 'Stock cannot be lower than 1.');
     }
 
-    public function decrementStock($id)
-    {
-        $product = Product::findOrFail($id);
-        $product->decrement('product_stock');
-        return redirect()->back()->with('success', 'Product stock decremented by one.');
+    $product->decrement('product_stock', $validated['decrementAmount']);
+    return redirect()->back()->with('success', 'Product stock decreased by ' . $validated['decrementAmount'] . '.');
+}
+
+public function incrementStock($id)
+{
+    $product = Product::findOrFail($id);
+    $currentStock = $product->product_stock;
+
+    if ($currentStock + 1 > 500) {
+        return redirect()->back()->with('incrementError', 'Stock limit is 500.');
     }
+
+    $product->increment('product_stock');
+    return redirect()->back()->with('success', 'Product stock increased by one.');
+}
+
+public function decrementStock($id)
+{
+    $product = Product::findOrFail($id);
+    $currentStock = $product->product_stock;
+
+    if ($currentStock - 1 <= 0) {
+        return redirect()->back()->with('decrementError', 'Stock cannot be lower than 1.');
+    }
+
+    $product->decrement('product_stock');
+    return redirect()->back()->with('success', 'Product stock decreased by one.');
+}
+
 }

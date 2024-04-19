@@ -45,6 +45,12 @@ Route::middleware([
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::get('/products/{id}/discount/edit', [ProductController::class, 'discountSelected'])->name('discount.edit');
 
+    Route::get('/products/{id}/stock/show', [ProductController::class, 'selectedStock'])->name('stock.show');
+    Route::put('/products/{id}/stock/increment', [ProductController::class, 'incrementStock'])->name('stock.increment');
+    Route::put('/products/{id}/stock/decrement', [ProductController::class, 'decrementStock'])->name('stock.decrement');
+    Route::put('/products/{id}/stock/increment/amount', [ProductController::class, 'incrementStockByAmount'])->name('stock.increment.amount');
+    Route::put('/products/{id}/stock/decrement/amount', [ProductController::class, 'decrementStockByAmount'])->name('stock.decrement.amount');
+
     Route::put('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
     Route::put('/products/{id}/discount/update', [ProductController::class, 'discountApply'])->name('discount.update');
     Route::put('/products/{id}/discount/remove', [ProductController::class, 'discountRemove'])->name('discount.remove');
