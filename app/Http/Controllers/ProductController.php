@@ -78,8 +78,8 @@ class ProductController extends Controller
         if ($request->hasFile('product_img')) {
             $image = $request->file('product_img');
             $imagePath = $image->store('public/images');
-            $imageUrl = Storage::url($imagePath);
-            // $imageUrl = 'https://kopii.com/' . Storage::url($imagePath);
+            //$imageUrl = Storage::url($imagePath);
+            $imageUrl = 'https://kopii-admin-panel-production.up.railway.app/' . Storage::url($imagePath);
             // change it to this when project is hosted to match the previous products added and to not need adding prefix on react
             $validated['product_img'] = $imageUrl;
         }
