@@ -77,7 +77,7 @@ class ProductController extends Controller
         $request['product_price'] = floatval($request['product_price']);
         if ($request->hasFile('product_img')) {
             $image = $request->file('product_img');
-            $imagePath = $image->store('public/images');
+            $imagePath = $image->store('public');
             $imageUrl = Storage::url($imagePath);
             // $imageUrl = 'https://kopii-admin-panel-production.up.railway.app/' . Storage::url($imagePath);
             // change it to this when project is hosted to match the previous products added and to not need adding prefix on react
