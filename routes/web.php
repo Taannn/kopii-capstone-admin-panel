@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +27,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [CustomerController::class, 'index'])->name('dashboard');
+    Route::put('/dashboard/{id}/shipout', [CustomerController::class, 'shipOut'])->name('dashboard.shipout');
+    Route::get('/dashboard/{id}/show', [CustomerController::class, 'show'])->name('dashboard.show');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
