@@ -3,7 +3,9 @@ services:
   - type: web
     name: laravel
     port: 8000
-    buildScript: npm run build
+    buildCommand: |
+      npm install
+      npm run build
     env:
       - key: APP_KEY
         value: base64:KSiVClVXhjTjQ6CZIF3+AN8DY1Hd/2v0h+etk7qZ2BA=
