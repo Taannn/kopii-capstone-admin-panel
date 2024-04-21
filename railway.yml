@@ -9,3 +9,5 @@ services:
     env:
       - key: APP_KEY
         value: base64:KSiVClVXhjTjQ6CZIF3+AN8DY1Hd/2v0h+etk7qZ2BA=
+      - key: NODE_ENV
+        value: production
