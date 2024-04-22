@@ -43,7 +43,7 @@
                 <div>
                     <label for="product_price">Product Price</label>
                     <input type="text" name="product_price" id="product_price"
-                        onkeypress="return /[0-9]/i.test(event.key)" maxlength="12"
+                        onkeypress="return /[0-9\.]/i.test(event.key)" maxlength="12"
                         class="rounded block p-1 mt-2 w-full border-2 border-caramel focus:border-coffee-brown focus:ring-coffee-brown" />
                     @error('product_price')
                         <span class="text-red mt-1">{{ $message }}</span>

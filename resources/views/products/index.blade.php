@@ -9,10 +9,10 @@
     <div class="py-6">
         <div class="container mx-auto px-[2rem] grid grid-cols-9 gap-2">
             <div class="col-span-9 border-4 border-espresso">
-                <div class="grid grid-cols-[repeat(23,1fr)] gap-4 border-4 border-black-600 px-3 py-1">
+                <div class="grid grid-cols-[repeat(21,1fr)] gap-4 border-4 border-black-600 px-3 py-1">
                     <p class="font-bold col-span-1">No.</p>
                     <p class="font-bold col-span-3">Product </p>
-                    <p class="font-bold col-span-2">Image </p>
+                    {{--<p class="font-bold col-span-2">Image </p>--}}
                     <p class="font-bold col-span-3">Price</p>
                     <p class="font-bold col-span-2">Discount</p>
                     <p class="font-bold col-span-1">Stock</p>
