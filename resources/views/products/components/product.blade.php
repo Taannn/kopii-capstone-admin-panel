@@ -20,7 +20,7 @@
             </form>
             <p class="font-bold col-span-1">{{ $products->firstItem() + $loop->index }}</p>
             <p class="font-bold col-span-3">{{ $product->product_name }}</p>
-            <img src="{{ $product->product_img }}" class="w-[2.7rem] h-[2.2rem] rounded-sm col-span-2" alt="">
+            <img src="{{ asset($product->product_img) }}" class="w-[2.7rem] h-[2.2rem] rounded-sm col-span-2" alt="">
             @if ($product->discount == null)
                 <p class="col-span-3">₱ {{ number_format($product->product_price, 2) }}</p>
             @else
