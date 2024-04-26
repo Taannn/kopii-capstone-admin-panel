@@ -40,7 +40,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'product_name' => 'required|string|max:255',
             'product_desc' => 'required|string',
-            'product_img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'product_price' => 'required|min:1',
             'product_stock' => 'required|min:1',
             'category_id' => 'required|exists:category,category_id'
@@ -53,10 +53,12 @@ class ProductController extends Controller
 
         if ($request->hasFile('product_img')) {
             $image = $request->file('product_img');
-            $imagePath = $image->store('public/images');
+            $imagePath = $image->store('public');
             $imageUrl = Storage::url($imagePath);
             $product->product_img = $imageUrl;
             $product->save();
+        } else {
+            unset($validated['product_img']);
         }
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
@@ -79,12 +81,10 @@ class ProductController extends Controller
             $image = $request->file('product_img');
             $imagePath = $image->store('public');
             $imageUrl = Storage::url($imagePath);
-            // $imageUrl = 'https://kopii-admin-panel-production.up.railway.app/' . Storage::url($imagePath);
-            // change it to this when project is hosted to match the previous products added and to not need adding prefix on react
             $validated['product_img'] = $imageUrl;
-        }else {
+        } else {
             unset($validated['product_img']);
-    }
+        }
         $image = Product::create($validated);
         return redirect()->route('products.index')->with('success', 'Product successfully added!');
     }
