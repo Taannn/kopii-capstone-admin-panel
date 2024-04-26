@@ -11,7 +11,7 @@
     <h1 class="text-center text-espresso my-4">No products addded</h1>
 @else
     @foreach ($products as $product)
-        <div class="grid grid-cols-[repeat(21,1fr)] gap-5 pt-4 border-b-2 px-3 relative">
+        <div class="grid grid-cols-[repeat(23,1fr)] gap-5 pt-4 border-b-2 px-3 relative">
             <form action="{{ route('discount.remove', $product->product_id) }}" method="post" style="visibility: hidden;"
                 class="absolute">
                 @csrf
@@ -20,7 +20,7 @@
             </form>
             <p class="font-bold col-span-1">{{ $products->firstItem() + $loop->index }}</p>
             <p class="font-bold col-span-3">{{ $product->product_name }}</p>
-            {{--<img src="{{ asset($product->product_img) }}" class="w-[2.7rem] h-[2.2rem] rounded-sm col-span-2" alt="">--}}
+            <img src="{{ asset($product->product_img) }}" class="w-[2.7rem] h-[2.2rem] rounded-sm col-span-2" alt="">
             @if ($product->discount == null)
                 <p class="col-span-3">₱ {{ number_format($product->product_price, 2) }}</p>
             @else
