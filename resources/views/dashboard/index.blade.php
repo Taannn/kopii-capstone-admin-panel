@@ -101,18 +101,18 @@
                         <p>₱ {{ $orderDetail->product->product_price }}</p>
                         <p class="col-span-2">x {{ $orderDetail->quantity }}</p>
                     </div>
-                    <div class="grid grid-cols-4 gap-2 px-2 py-1 text-left border-t-4">
+                    <div class="grid grid-cols-4 gap-2 px-2 py-1 text-[1.2rem] text-left border-t-4">
                         <p class="col-span-2">Order ID: </p>
-                        <p class="col-span-2">KOPII{{ $orderDetail->order_id }}</p>
+                        <p class="col-span-2">KOPII100{{ $orderDetail->order_id }}</p>
                         <p class="col-span-2">Order Date</p>
                         <p class="col-span-2">{{ $orderDetail->created_at }}</p>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 px-2 py-1 border-t-4 text-[1.1rem]">
+                    <div class="grid grid-cols-3 gap-2 px-2 py-1 border-t-4 text-[1.2rem]">
                         <p>Name: </p>
                         <p class="font-bold col-span-2">{{ $orderDetail->customer->first_name }}
                             {{ $orderDetail->customer->last_name }}</p>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 px-2 py-1 text-[1.1rem]">
+                    <div class="grid grid-cols-3 gap-2 px-2 py-1 text-[1.2rem]">
                         <p>Address: </p>
                         <p class="font-bold col-span-2">{{ $addressDetail->address }}, {{ $addressDetail->city }},
                             {{ $addressDetail->zip_code }}</p>

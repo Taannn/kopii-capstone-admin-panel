@@ -38,12 +38,12 @@
 
             <div class="flex items-center justify-start mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-caramel hover:text-espresso rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-espresso" href="{{ route('password.request') }}">
+                    <a class="underline text-sm text-coffee-brown hover:text-espresso rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-espresso" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
-                <span class="text-sm mx-3"> or </span>
-                <a href="{{ route('register') }}" class="underline text-sm text-gray-600 hover:text-espresso rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-espresso">register here</a>
+                <span class="text-sm mx-3 text-coffee-brown"> or </span>
+                <a href="{{ route('register') }}" class="underline text-coffee-brown text-sm hover:text-espresso rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-espresso">register here</a>
                 <x-button class="block ms-auto">
                     {{ __('Log in') }}
                 </x-button>

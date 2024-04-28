@@ -15,8 +15,7 @@ class ProductController extends Controller
     }
     public function index()
     {
-        // $products = Product::latest()->paginate(5);
-        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
+        $products = Product::latest()->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = false;
         $editing = false;
@@ -27,7 +26,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
+        $products = Product::latest()->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $toBeEdited = Product::findOrFail($id);
         $editing = true;
@@ -91,7 +90,7 @@ class ProductController extends Controller
 
     public function add()
     {
-        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
+        $products = Product::latest()->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = true;
         $editing = false;
@@ -120,7 +119,7 @@ class ProductController extends Controller
 
     public function discountSelected($id)
     {
-        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
+        $products = Product::latest()->paginate(4);
         $trashes = Product::onlyTrashed()->latest()->paginate(2);
         $discounted = Product::findOrFail($id);
         $adding = false;
@@ -165,7 +164,7 @@ class ProductController extends Controller
     }
     public function selectedStock($id)
     {
-        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
+        $products = Product::latest()->paginate(4);
         $trashes = Product::onlyTrashed()->latest()->paginate(2);
         $stock = Product::findOrFail($id);
         $adding = false;
