@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         // $products = Product::latest()->paginate(5);
-        $products = Product::latest()->with('category')->paginate(4);
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = false;
         $editing = false;
@@ -27,7 +27,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $products = Product::latest()->paginate(4);
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $toBeEdited = Product::findOrFail($id);
         $editing = true;
@@ -91,7 +91,7 @@ class ProductController extends Controller
 
     public function add()
     {
-        $products = Product::latest()->with('category')->paginate(4);
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         $trashes = Product::onlyTrashed()->latest('deleted_at')->paginate(2);
         $adding = true;
         $editing = false;
@@ -120,7 +120,7 @@ class ProductController extends Controller
 
     public function discountSelected($id)
     {
-        $products = Product::latest()->paginate(4);
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         $trashes = Product::onlyTrashed()->latest()->paginate(2);
         $discounted = Product::findOrFail($id);
         $adding = false;
@@ -153,20 +153,19 @@ class ProductController extends Controller
     }
     public function search(Request $request)
     {
-        $products = Product::latest()->with('category');
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         if ($request->has('search')) {
             $products = $products->where('product_name', 'like', '%' . $request->get('search', '') . '%');
         }
-        return view('products.index', [
-            'products' => $products->paginate(4),
-            'adding' => false,
-            'editing' => false,
-            'addingDiscount' => false,
-        ]);
+        $adding = false;
+        $editing = false;
+        $addingDiscount = false;
+        $updatingStock = false;
+        return view('products.index', compact('addingDiscount', 'products', 'editing', 'adding', 'updatingStock'));
     }
     public function selectedStock($id)
     {
-        $products = Product::latest()->paginate(4);
+        $products = Product::where('ordered_from', 'Kopii Shop')->paginate(4);
         $trashes = Product::onlyTrashed()->latest()->paginate(2);
         $stock = Product::findOrFail($id);
         $adding = false;

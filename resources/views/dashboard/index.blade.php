@@ -73,11 +73,11 @@
                             @endif
                             <p class="text-white col-span-2">
                                 <a href="{{ route('dashboard.show', $order->order_id) }}"
-                                    class="bg-caramel edit-button hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">View
+                                    class="bg-caramel cursor-pointer edit-button hover:bg-coffee-brown px-2 py-1 rounded-sm mb-1">View
                                     Details</a>
                                 @if ($order->status === 'To Ship' ?? false)
                                     <a onclick="document.getElementById('shipOut{{ $order->order_id }}').click()"
-                                        class="bg-coffee-brown hover:bg-espresso px-2 py-1 rounded-sm mb-1">Ship Out</a>
+                                        class="bg-coffee-brown cursor-pointer hover:bg-espresso px-2 py-1 rounded-sm mb-1">Ship Out</a>
                                 @endif
 
                             </p>
