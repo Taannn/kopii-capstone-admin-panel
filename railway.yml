@@ -6,6 +6,7 @@ services:
     buildCommand: |
       npm install
       npm run build
+      php artisan storage:link
     env:
       - key: APP_KEY
         value: base64:KSiVClVXhjTjQ6CZIF3+AN8DY1Hd/2v0h+etk7qZ2BA=
