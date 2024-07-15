@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-![Live View](public/screenshots/screenshot-admin-panel.png)
+![Live View](public/screenshot/screenshot-admin-panel.png)
 
 
 ## Kopii - Your Gateway To Flavorful Delights | Admin Panel
